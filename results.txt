@@ -1,0 +1,45 @@
+
+Games: 64
+Time: 0.00815s
+Player: 25
+Rando: 39
+
+Games: 128
+Time: 0.01555s
+Player: 72
+Rando: 56
+
+Games: 256
+Time: 0.03184s
+Player: 135
+Rando: 121
+
+Games: 512
+Time: 0.0648s
+Player: 273
+Rando: 239
+
+Games: 1024
+Time: 0.12868s
+Player: 535
+Rando: 489
+
+Games: 2048
+Time: 0.23867s
+Player: 1035
+Rando: 1013
+
+Games: 4096
+Time: 0.50152s
+Player: 2109
+Rando: 1987
+
+Games: 8192
+Time: 0.99665s
+Player: 4230
+Rando: 3962
+
+Games: 16384
+Time: 1.9508s
+Player: 8391
+Rando: 7993

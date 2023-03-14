@@ -36,7 +36,10 @@ def play_card(card, table):
 
 def no_legal_moves(hand, deck, table):
     for i in range(3):
-        draw_from_deck(hand, deck)
+        if len(deck) != 0:
+            draw_from_deck(hand, deck)
+        else:
+            re_shuffle(deck, table)
         if is_legal(hand[-1], table):
             play_card(hand[-1], table)
 
@@ -47,11 +50,28 @@ def re_shuffle(deck, table):
     draw_from_deck(table, deck)
 
 
+def check_for_doubles(card, hand):
+    for c in hand:
+        if c[0] == card[0] or c[1] == card[1]:
+            return True
+    return False
+
+
+def get_doubles(card, hand):
+    for c in hand:
+        if c[0] == card[0] or c[1] == card[1]:
+            return c
+
+
 def random_move(hand, deck, table):
     for card in hand:
         if is_legal(card, table):
             play_card(card, table)
             hand.remove(card)
+            if (check_for_doubles(table[-1], hand)):
+                card2 = get_doubles(table[-1], hand)
+                play_card(card2, table)
+                hand.remove(card2)
             return True
     no_legal_moves(hand, deck, table)
 
@@ -77,7 +97,7 @@ def print_card(card):
     return ret_str
 
 
-def play():
+def initialize():
     deck = make_deck()
 
     player = []
@@ -88,39 +108,52 @@ def play():
     draw_from_deck(table, deck)
     deal(player, rando, deck)
 
+    return (deck, player, rando, table)
+
+
+def play(player_score=0, rando_score=0):
+    (deck, player, rando, table) = initialize()
+
     player_turn = True
     game_over = False
 
     while (game_over == False):
         if player_turn:
+            #print('Player turn')
+            random_move(player, deck, table)
+            #print('Table: ', print_card(table[-1]))
+            player_turn = False
 
-            print('Player hand: ', player)
-            print('Table: ' + print_card(table[-1]))
-            print('Enter card to play: ')
-            card = input()
-            if card == 'D':
-                no_legal_moves(player, deck, table)
-                player_turn = False
-                continue
-            card = card.split()
-            card = (card[0], card[1])
-            if play_card(card, table):
-                player.remove(card)
-                player_turn = False
-            else:
-                print('Illegal move')
+            # print('Player hand: ', player)
+            # print('Table: ' + print_card(table[-1]))
+            # print('Enter card to play: ')
+            # card = input()
+            # if card == 'D':
+            #     no_legal_moves(player, deck, table)
+            #     player_turn = False
+            #     continue
+            # card = card.split()
+            # card = (card[0], card[1])
+            # if play_card(card, table):
+            #     player.remove(card)
+            #     player_turn = False
+            # else:
+            #     print('Illegal move')
         else:
-            print('Rando turn')
+            #print('Rando turn')
             random_move(rando, deck, table)
-            print('Table: ', print_card(table[-1]))
-            player_turn=True
+            #print('Table: ', print_card(table[-1]))
+            player_turn = True
 
         if (len(player) == 0):
-            print('Player wins')
-            game_over=True
+            #print('Player wins')
+            player_score += 1
+            game_over = True
         elif (len(rando) == 0):
-            print('Rando wins')
-            game_over=True
+            #print('Rando wins')
+            rando_score += 1
+            game_over = True
+    return (player_score, rando_score)
 
 
 if __name__ == '__main__':
