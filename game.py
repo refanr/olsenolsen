@@ -4,6 +4,7 @@ from mcts import MCTS
 
 def play():
     state = OlsenState()
+    mcts = MCTS(state)
 
     while not state.game_over():
         print("Current state:")
@@ -12,14 +13,8 @@ def play():
         user_input = int(input("Enter a move: "))
         user_move = state.human_hand[user_input]
 
-        while user_move not in state.get_legal_moves():
-            for i in range(3):
-                card = state.human_draw()
-                if card in state.get_legal_moves():
-                    user_move = card
-                    break
-            user_move = None
-            break
+        if user_move not in state.get_legal_moves():
+            pass
 
         state.move(user_move)
         mcts.move(user_move)
