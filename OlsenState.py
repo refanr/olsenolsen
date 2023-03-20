@@ -61,8 +61,18 @@ class OlsenState:
         return legals
 
     def draw(self) -> tuple:
-        card = self.deck.pop()
-        return card
+        if len(self.deck) != 0:
+            card = self.deck.pop()
+            return card
+        else:
+            self.reshuffle()
+            return self.draw()
+
+    def reshuffle(self) -> None:
+        self.deck.extend(self.table)
+        self.table.clear()
+        card = self.draw()
+        self.table.append(card)
 
     def human_draw(self) -> tuple:
         card = self.draw()
