@@ -57,7 +57,8 @@ class OlsenState:
                     if self.is_legal(drawn_card):
                         legals.append(card)
                         break
-
+        if len(legals) == 0:
+            legals.append(('x', 'x'))
         return legals
 
     def draw(self) -> tuple:
@@ -91,6 +92,8 @@ class OlsenState:
                 self.human_hand.remove(card)
             else:
                 self.agent_hand.remove(card)
+            if card == ('x', 'x'):
+                pass
         if self.to_play == GameMeta.PLAYERS['one']:
             self.to_play = GameMeta.PLAYERS['two']
         else:
