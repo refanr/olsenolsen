@@ -98,7 +98,7 @@ class MCTS:
 
     def best_move(self):
         if self.root_state.game_over():
-            return -1
+            return ('x', 'x')
 
         max_value = max(self.root.children.values(), key=lambda n: n.N).N
         max_nodes = [n for n in self.root.children.values() if n.N ==

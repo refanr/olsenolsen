@@ -1,5 +1,5 @@
 import random
-from cards import Deck
+from cards import print_card, print_hand, print_opponent
 from meta import GameMeta
 
 
@@ -87,22 +87,32 @@ class OlsenState:
 
     def move(self, card) -> None:
         if card != None:
-            self.table.append(card)
-            if self.to_play == GameMeta.PLAYERS['one']:
-                self.human_hand.remove(card)
-            else:
-                self.agent_hand.remove(card)
             if card == ('x', 'x'):
                 pass
+            else:
+                self.table.append(card)
+                if self.to_play == GameMeta.PLAYERS['one']:
+                    try:
+                        self.human_hand.remove(card)
+                    except:
+                        pass
+                elif self.to_play == GameMeta.PLAYERS['two']:
+                    try:
+                        self.agent_hand.remove(card)
+                    except:
+                        pass
         if self.to_play == GameMeta.PLAYERS['one']:
             self.to_play = GameMeta.PLAYERS['two']
         else:
             self.to_play = GameMeta.PLAYERS['one']
 
     def print(self) -> None:
+        print("Agent hand:")
+        print(print_opponent(len(self.agent_hand)))
         print("Table:")
-        print(self.table[-1])
-        print("human hand:")
-        for i in range(len(self.human_hand)):
-            print(str(i)+"." +
-                  str(self.human_hand[i][0])+str(self.human_hand[i][1]))
+        print_card(self.table[-1])
+        print("Human hand:")
+        print(print_hand(self.human_hand))
+        # for i in range(len(self.human_hand)):
+        #     print(str(i+1)+":")
+        #     print_card(self.human_hand[i])

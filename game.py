@@ -1,4 +1,5 @@
 from OlsenState import OlsenState
+from cards import print_card
 from mcts import MCTS
 
 
@@ -10,11 +11,11 @@ def play():
         print("Current state:")
         state.print()
 
-        user_input = int(input("Enter a move: "))
-        user_move = state.human_hand[user_input]
+        user_input = int(input("Enter a move(1,2,3,..): "))
+        user_move = state.human_hand[user_input-1]
 
         if user_move not in state.get_legal_moves():
-            pass
+            user_move = state.get_legal_moves()[0]
 
         state.move(user_move)
         mcts.move(user_move)
@@ -22,7 +23,8 @@ def play():
         if state.game_over():
             print("Player one won!")
             break
-
+        
+        
         print("Thinking...")
 
         mcts.search(8)
